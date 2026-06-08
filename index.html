@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عيد ميلاد سعيد يا بيان 🎂</title>
+<style>
+*{box-sizing:border-box;font-family:Tahoma,sans-serif}
+body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#ff9ac6,#ffd3e6);overflow:hidden}
+.card{width:min(92vw,430px);background:rgba(255,255,255,.25);backdrop-filter:blur(10px);padding:20px;border-radius:24px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+img{width:100%;border-radius:20px}
+h2{color:#d81b60}
+button,.heart{border:none;border-radius:999px;padding:12px 24px;cursor:pointer}
+button{background:#ff4f93;color:#fff;font-size:18px}
+.hidden{display:none}
+.heart{font-size:80px;background:none;animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.15)}}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+<img id="img" src="1.png">
+<h2 id="text">هلو بيان 👋</h2>
+<button id="btn">هلوو</button>
+</div>
+
+<script>
+const steps=[
+["1.png","هلو بيان 👋","هلوو"],
+["2.png","بيان عندي سؤال 🤭","شنو هو؟"],
+["3.png","بس مستحية أسألك إياه 🥺","اسأليني"],
+["4.png","تحبين علي لو لا؟ 🤭","ها؟"],
+["5.png","شنو هلا 😳 تحبين علي لو لا","مدري"]
+];
+let i=0;
+const img=document.getElementById('img');
+const text=document.getElementById('text');
+const btn=document.getElementById('btn');
+
+btn.onclick=()=>{
+ i++;
+ if(i<steps.length){
+   img.src=steps[i][0]; text.textContent=steps[i][1]; btn.textContent=steps[i][2];
+ }else if(i===steps.length){
+   img.src='6.png';
+   text.textContent='إذا تحبين علي دوسي على القلب ❤️';
+   btn.outerHTML='<button class="heart" id="love">❤️</button>';
+   document.getElementById('love').onclick=showFinal;
+ }
+};
+
+function showFinal(){
+ document.getElementById('card').innerHTML=`
+ <img src="7.png">
+ <h2>🎉 عيد ميلاد سعيد يا بيان 🎂🎉</h2>
+ <p>
+ اليوم ماهو يوم عادي بل يوم مميز لأنكِ أضأتِ الدنيا فيه لأول مرة.<br><br>
+ أتمنى لكِ عامًا مليئًا بالسعادة والنجاح واللحظات الجميلة التي تبقى في الذاكرة.
+ أتمنى أن تتحقق أحلامكِ وأن يكون القادم أجمل مما تتمنين💗<br><br>
+ happy birthday bayan ❤️🎂✨
+ </p>`;
+}
+</script>
+</body>
+</html>
