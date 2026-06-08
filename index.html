@@ -1,65 +1,487 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>عيد ميلاد سعيد يا بيان 🎂</title>
+
+<title>🎂 عيد ميلاد سعيد يا بيان 🎂</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-*{box-sizing:border-box;font-family:Tahoma,sans-serif}
-body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#ff9ac6,#ffd3e6);overflow:hidden}
-.card{width:min(92vw,430px);background:rgba(255,255,255,.25);backdrop-filter:blur(10px);padding:20px;border-radius:24px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.15)}
-img{width:100%;border-radius:20px}
-h2{color:#d81b60}
-button,.heart{border:none;border-radius:999px;padding:12px 24px;cursor:pointer}
-button{background:#ff4f93;color:#fff;font-size:18px}
-.hidden{display:none}
-.heart{font-size:80px;background:none;animation:pulse 1s infinite}
-@keyframes pulse{50%{transform:scale(1.15)}}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+position:relative;
+
+background:linear-gradient(
+-45deg,
+#ff8fc8,
+#ffc2df,
+#ffd9ec,
+#ffb5d5
+);
+
+background-size:400% 400%;
+animation:bgMove 15s ease infinite;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+.background-hearts{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+overflow:hidden;
+pointer-events:none;
+z-index:0;
+}
+
+.bg-heart{
+position:absolute;
+color:rgba(255,255,255,.25);
+animation:floatHeart linear forwards;
+}
+
+@keyframes floatHeart{
+from{
+transform:translateY(110vh);
+opacity:1;
+}
+to{
+transform:translateY(-150px);
+opacity:0;
+}
+}
+
+.container{
+width:92%;
+max-width:430px;
+position:relative;
+z-index:2;
+}
+
+.card{
+
+background:rgba(20,20,20,.35);
+
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,255,255,.15);
+
+border-radius:30px;
+
+padding:22px;
+
+text-align:center;
+
+box-shadow:
+0 15px 40px rgba(0,0,0,.25),
+0 0 30px rgba(255,255,255,.08);
+
+color:white;
+
+animation:fadeIn .5s ease;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.card img{
+width:100%;
+max-width:280px;
+display:block;
+margin:auto;
+border-radius:24px;
+margin-bottom:18px;
+}
+
+.title{
+font-size:30px;
+font-weight:800;
+margin-bottom:18px;
+}
+
+.message{
+font-size:18px;
+line-height:2;
+font-weight:600;
+}
+
+.btn{
+
+background:#ff4f93;
+
+color:white;
+
+border:none;
+
+padding:14px 28px;
+
+font-size:18px;
+
+font-weight:700;
+
+border-radius:999px;
+
+cursor:pointer;
+
+transition:.25s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+}
+
+.hidden{
+display:none;
+}
+
+.big-heart{
+
+font-size:95px;
+
+cursor:pointer;
+
+user-select:none;
+
+animation:
+pulse 1s infinite,
+shake 2s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.15)}
+100%{transform:scale(1)}
+}
+
+@keyframes shake{
+0%,100%{rotate:0deg}
+25%{rotate:-5deg}
+75%{rotate:5deg}
+}
+
+.click-heart{
+position:fixed;
+pointer-events:none;
+font-size:26px;
+animation:burst 1.6s linear forwards;
+z-index:9999;
+}
+
+@keyframes burst{
+from{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+to{
+opacity:0;
+transform:translateY(-120px) scale(1.8);
+}
+}
+
+.share-btn{
+margin-top:20px;
+}
+
+@media (max-width:480px){
+
+.title{
+font-size:25px;
+}
+
+.message{
+font-size:16px;
+}
+
+.big-heart{
+font-size:82px;
+}
+
+.btn{
+font-size:16px;
+padding:12px 22px;
+}
+
+}
+
 </style>
 </head>
+
 <body>
+
+<div class="background-hearts" id="backgroundHearts"></div>
+
+<div class="container">
+
 <div class="card" id="card">
+
 <img id="img" src="1.png">
-<h2 id="text">هلو بيان 👋</h2>
-<button id="btn">هلوو</button>
+
+<div class="title" id="text">
+هلو بيان 👋
+</div>
+
+<button class="btn" id="btn">
+هلوو
+</button>
+<div class="message" id="message" style="display:none;">
+</div>
+
+</div>
 </div>
 
 <script>
-const steps=[
-["1.png","هلو بيان 👋","هلوو"],
-["2.png","بيان عندي سؤال 🤭","شنو هو؟"],
-["3.png","بس مستحيي أسألك إياه 🥺","اسأليني"],
-["4.png","تحبين عبدالرحمان لو لا؟ 🤭","ها؟"],
-["5.png","شنو هلا 😳 تحبين علي لو لا","مدري"]
-];
-let i=0;
-const img=document.getElementById('img');
-const text=document.getElementById('text');
-const btn=document.getElementById('btn');
 
-btn.onclick=()=>{
- i++;
- if(i<steps.length){
-   img.src=steps[i][0]; text.textContent=steps[i][1]; btn.textContent=steps[i][2];
- }else if(i===steps.length){
-   img.src='6.png';
-   text.textContent='إذا تحبين علي دوسي على القلب ❤️';
-   btn.outerHTML='<button class="heart" id="love">❤️</button>';
-   document.getElementById('love').onclick=showFinal;
- }
-};
+const steps = [
+
+["1.png","هلو بيان 👋","هلوو"],
+
+["2.png","بيان عندي سؤال 🤭","شنو هو؟"],
+
+["3.png","بس مستحية أسألك إياه 🥺","اسأليني"],
+
+["4.png","تحبين عبدالرحمان لو لا؟ 🤭","ها؟"],
+
+["5.png","شنو هلا 😳 تحبين عبدالرحمان لو لا","مدري"]
+
+];
+
+let current = 0;
+
+const img = document.getElementById("img");
+const text = document.getElementById("text");
+const btn = document.getElementById("btn");
+
+function createBackgroundHeart(){
+
+const heart = document.createElement("div");
+
+heart.className = "bg-heart";
+
+heart.innerHTML = "💖";
+
+heart.style.left = Math.random()*100 + "vw";
+
+heart.style.fontSize =
+(15 + Math.random()*25) + "px";
+
+heart.style.animationDuration =
+(8 + Math.random()*8) + "s";
+
+document.getElementById("backgroundHearts")
+.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},16000);
+
+}
+
+setInterval(createBackgroundHeart,700);
+
+function burstHearts(){
+
+for(let i=0;i<12;i++){
+
+const heart =
+document.createElement("div");
+
+heart.className = "click-heart";
+
+heart.innerHTML = "💗";
+
+heart.style.left =
+(window.innerWidth/2 + (Math.random()*120-60))
++ "px";
+
+heart.style.top =
+(window.innerHeight/2)
++ "px";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},1600);
+
+}
+
+}
+
+btn.addEventListener("click",()=>{
+
+burstHearts();
+
+current++;
+
+if(current < steps.length){
+
+img.src = steps[current][0];
+
+text.innerHTML = steps[current][1];
+
+btn.innerHTML = steps[current][2];
+
+}else{
+
+img.src = "6.png";
+
+text.innerHTML =
+"إذا تحبين عبدالرحمان دوسي على القلب ❤️";
+
+btn.outerHTML = `
+<div class="big-heart"
+id="loveHeart">
+❤️
+</div>
+`;
+
+setTimeout(()=>{
+
+document.getElementById("loveHeart")
+.addEventListener("click",showFinal);
+ 
+},50);
+
+}
+
+});
+ function shareSite(){
+
+if(navigator.share){
+
+navigator.share({
+title:"🎂 عيد ميلاد سعيد يا بيان",
+text:"مفاجأة خاصة لبيان 💖",
+url:window.location.href
+});
+
+}else{
+
+navigator.clipboard.writeText(
+window.location.href
+);
+
+alert("تم نسخ رابط الموقع 📋");
+
+}
+
+}
+
+function playCelebrationSound(){
+
+const audio = new Audio(
+"https://www.soundjay.com/human/applause-8.mp3"
+);
+
+audio.volume = 0.7;
+
+audio.play().catch(()=>{});
+
+}
 
 function showFinal(){
- document.getElementById('card').innerHTML=`
- <img src="7.png">
- <h2>🎉 عيد ميلاد سعيد يا بيان 🎂🎉</h2>
- <p>
- اليوم ماهو يوم عادي بل يوم مميز لأنكِ أضأتِ الدنيا فيه لأول مرة.<br><br>
- أتمنى لكِ عامًا مليئًا بالسعادة والنجاح واللحظات الجميلة التي تبقى في الذاكرة.
- أتمنى أن تتحقق أحلامكِ وأن يكون القادم أجمل مما تتمنين💗<br><br>
- happy birthday bayan ❤️🎂✨
- </p>`;
+
+burstHearts();
+
+playCelebrationSound();
+
+document.getElementById("card").innerHTML = `
+
+<img src="7.png">
+
+<div class="title">
+🎉 عيد ميلاد سعيد يا بيان 🎂🎉
+</div>
+
+<div class="message">
+
+اليوم ماهو يوم عادي بل يوم مميز لأنكِ أضأتِ الدنيا فيه لأول مرة.
+
+<br><br>
+
+أتمنى لكِ عامًا مليئًا بالسعادة والنجاح واللحظات الجميلة التي تبقى في الذاكرة.
+
+أتمنى أن تتحقق أحلامكِ وأن يكون القادم أجمل مما تتمنين 💗
+
+<br><br>
+
+happy birthday bayan ❤️🎂✨
+
+</div>
+
+<button
+class="btn share-btn"
+onclick="shareSite()">
+
+📤 مشاركة الموقع
+
+</button>
+
+`;
+
+for(let i=0;i<40;i++){
+
+setTimeout(()=>{
+
+const heart =
+document.createElement("div");
+
+heart.className = "click-heart";
+
+heart.innerHTML =
+Math.random() > 0.5 ? "💖" : "💕";
+
+heart.style.left =
+(Math.random()*window.innerWidth)
++ "px";
+
+heart.style.top =
+(window.innerHeight-50)
++ "px";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},1800);
+
+},i*100);
+
 }
+
+}
+
 </script>
+
 </body>
 </html>
